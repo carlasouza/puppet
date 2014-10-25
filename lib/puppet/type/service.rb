@@ -136,6 +136,7 @@ module Puppet
 
       defaultto :true
     end
+
     newparam(:name) do
       desc <<-EOT
         The name of the service to run.
@@ -159,6 +160,7 @@ module Puppet
 
       defaultto { provider.class.defpath if provider.class.respond_to?(:defpath) }
     end
+
     newparam(:pattern) do
       desc "The pattern to search for in the process table.
         This is used for stopping services on platforms that do not
@@ -172,15 +174,18 @@ module Puppet
 
       defaultto { @resource[:binary] || @resource[:name] }
     end
+
     newparam(:restart) do
       desc "Specify a *restart* command manually.  If left
         unspecified, the service will be stopped and then started."
     end
+
     newparam(:start) do
       desc "Specify a *start* command manually.  Most service subsystems
         support a `start` command, so this will not need to be
         specified."
     end
+
     newparam(:status) do
       desc "Specify a *status* command manually.  This command must
         return 0 if the service is running and a nonzero value otherwise.
@@ -198,6 +203,12 @@ module Puppet
 
     newparam(:stop) do
       desc "Specify a *stop* command manually."
+    end
+
+    newparam(:configvalidator) do
+      desc "Specify a command to validate the configuration files of the service.
+        If passed, it will prevent services from restart the process due to a refresh
+        triggered by another resource."
     end
 
     newparam(:control) do

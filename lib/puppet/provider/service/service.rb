@@ -6,7 +6,16 @@ Puppet::Type.type(:service).provide :service do
   end
 
   # How to restart the process.
+  # If the 'configvalidator' is passed, execute it to prevent possible
+  # misconfiguration of the service.
   def restart
+    if @resource[:configvalidator]
+      ucommand(:configvalidator)
+      unless $CHILD_STATUS.exitstatus == 0
+        raise Puppet::Error,
+          "Configuration validation failed. Cannot start service."
+      end
+    end
     if @resource[:restart] or restartcmd
       ucommand(:restart)
     else
