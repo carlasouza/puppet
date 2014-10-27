@@ -206,9 +206,11 @@ module Puppet
     end
 
     newparam(:configvalidator) do
-      desc "Specify a command to validate the configuration files of the service.
-        If passed, it will prevent services from restart the process due to a refresh
-        triggered by another resource."
+      desc "Specify a command to validate the service's configuration files.
+        If the 'configvalidator' is passed, it will be executed when `restart` is triggered
+        by another resource's notification. If the exit return is different than 0,
+        will prevent the service to be stopped from a stable configuration
+        and crashing when restarting, or restarted with possible misconfiguration."
     end
 
     newparam(:control) do

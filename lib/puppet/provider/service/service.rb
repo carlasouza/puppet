@@ -6,8 +6,9 @@ Puppet::Type.type(:service).provide :service do
   end
 
   # How to restart the process.
-  # If the 'configvalidator' is passed, execute it to prevent possible
-  # misconfiguration of the service.
+  # If the 'configvalidator' is passed, it will be executed and if the exit return
+  # is different than 0, preventing the service to be stopped from a stable configuration
+  # and crashing when restarting, or restarted with possible misconfiguration.
   def restart
     if @resource[:configvalidator]
       ucommand(:configvalidator)
